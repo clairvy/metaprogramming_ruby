@@ -2,9 +2,9 @@ require 'test/unit'
 require 'object_model/replace'
 
 class ArrayExtensionsTest < Test::Unit::TestCase
-    def test_replace
+    def test_substitute
         book_topics = ['html', 'java', 'css']
-        book_topics.replace('java', 'ruby')
+        book_topics.substitute('java', 'ruby')
         expected = ['html', 'ruby', 'css']
         assert_equal expected, book_topics
     end
