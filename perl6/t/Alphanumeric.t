@@ -6,6 +6,6 @@ use Test;
 need ObjectModel::Alphanumeric;
 
 is(ObjectModel::Alphanumeric.to_alphanumeric('#3, the *Magic, Number*?'), '3 the Magic Number');
-#is('#3, the *Magic, Number*?'.to_alphanumeric(), '3 the Magic Number');
+is('#3, the *Magic, Number*?'.to_alphanumeric(), '3 the Magic Number');
 
-done_testing();
+done();
