@@ -1,3 +1,4 @@
+#!/usr/bin/env perl6
 # -*- mode: perl; coding: utf-8-unix; -*-
 
 use v6;
