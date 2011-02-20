@@ -2,20 +2,20 @@
 
 use v6;
 
-event "空が落ちてくる", -> %s {
-    %s{'sky_height'} < 300;
+event "空が落ちてくる", method {
+    $.get('sky_height') < 300;
 };
 
-event "空が近づいてくる", -> %s {
-    %s{'sky_height'} < %s{'mountains_height'};
+event "空が近づいてくる", method {
+    $.get('sky_height') < $.get('mountains_height');
 };
 
-setup -> %s {
+setup method {
     say "空の高さを設定";
-    %s{'sky_height'} = 100;
+    $.set('sky_height' => 100);
 };
 
-setup -> %s {
+setup method {
     say "山の高さを設定";
-    %s{'mountains_height'} = 200;
+    $.set('mountains_height' => 200);
 };
