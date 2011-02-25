@@ -10,7 +10,7 @@ class MyClass {
 
 # 影響が大き過ぎる
 augment class Any {
-    our $b;
+    my $b;
     # そんなに厳密にやらなくてもいいんじゃね？
 #    method b ($self where {not $_.defined} :) { $b }
     method b { $b }
@@ -18,7 +18,7 @@ augment class Any {
 
 # open class
 augment class MyClass {
-    our $c;
+    my $c;
 #    method c ($self where {not $_.defined} :) { $c }
     method c { $c }
 }
