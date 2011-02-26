@@ -2,23 +2,26 @@
 
 use v6;
 
-class C11              { method f {say "C11"} }
-class C12              { method f {say "C12"} }
-class C21              { method f {say "C21"} }
-class C22              { method f {say "C22"} }
-class B1 is C11 is C12 { method f {say "B1"} }
-class B2 is C21 is C22 { method f {say "B2"} }
-class A  is B1  is B2  { method f {say "A"} }
+{
+    my class P11              { method f {print " P11"} };
+    my class P12              { method f {print " P12"} };
+    my class P21              { method f {print " P21"} };
+    my class P22              { method f {print " P22"} };
+    my class P1 is P11 is P12 { method f {print " P1"} };
+    my class P2 is P21 is P22 { method f {print " P2"} };
+    my class C  is P1  is P2  { method f {print "C"} };
 
-my $obj_c = A.new;
-say $obj_c.WHAT; # A()
-say $obj_c.^parents(:tree).perl; # ([B1, [C11, [Any, [Mu]]], [C12, [Any, [Mu]]]], [B2, [C21, [Any, [Mu]]], [C22, [Any, [Mu]]]])
-$obj_c.+f; # A B1 C11 C12 B2 C21 C22
-say $obj_c.*g.perl; # undef
-try {
-    say $obj_c.+g;
+    my $obj_c = C.new;
+    say $obj_c.WHAT; # A()
+    say $obj_c.^parents(:tree).perl; # ([B1, [C11, [Any, [Mu]]], [C12, [Any, [Mu]]]], [B2, [C21, [Any, [Mu]]], [C22, [Any, [Mu]]]])
+    $obj_c.+f; # A B1 C11 C12 B2 C21 C22
+    say;
+    say $obj_c.*g.perl; # undef
+    try {
+        say $obj_c.+g;
+    };
+    say $!;
 }
-say $!;
 
 # 深さ優先探索？
 # A -+- B1 -+- C11
@@ -117,16 +120,16 @@ say $!;
 }
 
 # rw のテスト
-{
-    my class A {
-        has aaa $.a;
-    };
-    my $a = A.new;
-    say "access A.a";
-    say $a.^methods(:local)[0];
-    $a.a = 10;
-    say $a.perl;
-}
+# {
+#     my class A {
+#         has $.a;
+#     };
+#     my $a = A.new;
+#     say "access A.a";
+#     say $a.^methods(:local)[0];
+#     $a.a = 10;
+#     say $a.perl;
+# }
 
 {
     class C {};
@@ -134,4 +137,18 @@ say $!;
     say $obj.^methods(:local).map(*.name).perl;
     $obj.^add_method("a", my method a{});
     say $obj.^methods(:local).map(*.name).perl
+}
+
+{
+    my $role = RoleHOW.new;
+    $role.^add_method('mmm', my method mmm {say 'mmm'});
+    $role.^compose;
+    my $obj = 'string';
+    say $obj.WHAT;
+    $obj does $role;
+    say $obj.^methods(:local).map(*.name).perl;
+    $obj.mmm;
+    say $obj.WHAT;
+    say $obj ~~ Str;
+    say $obj;
 }
